@@ -19,12 +19,12 @@ public class History {
     private Long historyId;
 
     @JoinColumn(name="member_id")
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @NotNull
     private Member member;
 
     @JoinColumn(name="city_id")
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @NotNull
     private City city;
 

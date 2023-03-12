@@ -24,7 +24,7 @@ public class Trip {
     @NotNull
     private String title;
 
-    @JoinColumn
+    @JoinColumn(name="city_id")
     @ManyToOne
     @NotNull
     private City city;

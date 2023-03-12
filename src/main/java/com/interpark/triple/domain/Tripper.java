@@ -18,11 +18,11 @@ public class Tripper {
     private Long tripperId;
 
     @JoinColumn(name="member_id")
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private Member member;
 
     @JoinColumn(name="trip_id")
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     private Trip trip;
 
     @Builder
