@@ -1,5 +1,6 @@
 package com.interpark.triple.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,12 @@ public class History {
 
     @JoinColumn(name="member_id")
     @ManyToOne(cascade = CascadeType.REMOVE)
+    @NotNull
     private Member member;
 
     @JoinColumn(name="city_id")
     @ManyToOne(cascade = CascadeType.REMOVE)
+    @NotNull
     private City city;
 
     @Column

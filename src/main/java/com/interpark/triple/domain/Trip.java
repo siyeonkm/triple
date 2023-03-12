@@ -26,6 +26,7 @@ public class Trip {
 
     @JoinColumn
     @ManyToOne
+    @NotNull
     private City city;
 
     @Column
