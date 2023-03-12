@@ -6,25 +6,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name= "city")
-public class City extends BaseTimeEntity {
+@Table(name="member")
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cityId;
+    private Long memberId;
 
     @Column
     @NotNull
-    private String name;
+    private String nickname;
 
     @Builder
-    public City(String name){
-        this.name = name;
+    public Member(String nickname) {
+        this.nickname = nickname;
     }
 }
