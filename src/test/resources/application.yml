@@ -1,6 +1,6 @@
 spring:
   profiles:
-    include: dev
+    include: test
 
   jpa:
     show-sql: true
