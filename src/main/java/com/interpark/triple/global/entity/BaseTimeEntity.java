@@ -1,4 +1,4 @@
-package com.interpark.triple.domain;
+package com.interpark.triple.global.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

@@ -1,5 +1,6 @@
-package com.interpark.triple.domain;
+package com.interpark.triple.domain.entity;
 
+import com.interpark.triple.global.entity.BaseTimeEntity;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,19 +11,19 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name="member")
-public class Member {
+@Table(name= "city")
+public class City extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long cityId;
 
     @Column
     @NotNull
-    private String nickname;
+    private String name;
 
     @Builder
-    public Member(String nickname) {
-        this.nickname = nickname;
+    public City(String name){
+        this.name = name;
     }
 }

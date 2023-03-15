@@ -1,6 +1,6 @@
-package com.interpark.triple.Controller.DTO;
+package com.interpark.triple.domain.Controller.DTO;
 
-import com.interpark.triple.domain.City;
+import com.interpark.triple.domain.entity.City;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

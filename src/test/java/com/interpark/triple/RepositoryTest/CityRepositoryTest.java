@@ -1,14 +1,11 @@
 package com.interpark.triple.RepositoryTest;
 
-import com.interpark.triple.domain.City;
-import com.interpark.triple.repository.CityRepository;
+import com.interpark.triple.domain.entity.City;
+import com.interpark.triple.domain.repository.CityRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 public class CityRepositoryTest {
