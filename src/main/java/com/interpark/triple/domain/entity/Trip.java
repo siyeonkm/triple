@@ -1,4 +1,4 @@
-package com.interpark.triple.domain;
+package com.interpark.triple.domain.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Builder;
@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity

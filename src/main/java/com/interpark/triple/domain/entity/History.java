@@ -1,4 +1,4 @@
-package com.interpark.triple.domain;
+package com.interpark.triple.domain.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Builder;
