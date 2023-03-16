@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.Service;
+package com.interpark.triple.domain.service;
 
 import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
 import com.interpark.triple.domain.entity.City;
