@@ -1,23 +1,66 @@
 package com.interpark.triple.domain.controller;
 
-import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
 import com.interpark.triple.domain.controller.DTO.CityResponseDTO;
-import com.interpark.triple.domain.Service.CityService;
+import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
+import com.interpark.triple.domain.service.CityService;
 import com.interpark.triple.domain.entity.City;
+import com.interpark.triple.domain.service.TripService;
+import com.interpark.triple.global.error.CustomException;
+import com.interpark.triple.global.error.ErrorCode;
+import com.interpark.triple.global.error.SuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cities")
 public class CityController {
     private final CityService cityService;
+    private final TripService tripService;
+
+    @GetMapping("/{cityId}")
+    public ResponseEntity<CityResponseDTO> cityDetails(@PathVariable Long cityId) {
+        City city = cityService.findCity(cityId);
+        CityResponseDTO cityResponseDTO = CityResponseDTO.builder().city(city).build();
+        return ResponseEntity.ok(cityResponseDTO);
+    }
+
+    //TODO: 로직 완성하기
+    @GetMapping()
+    public ResponseEntity<List<CityResponseDTO>> cityList(HttpServletRequest request) {
+        Long memberId = Long.valueOf(request.getHeader("memberId"));
+        List<CityResponseDTO> dtoList = new ArrayList<>();
+        return ResponseEntity.ok(dtoList);
+    }
 
     @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public CityResponseDTO cityAdd(@RequestBody CityRequestDTO cityDTO) {
+    public ResponseEntity<CityResponseDTO> cityAdd(@RequestBody CityRequestDTO cityDTO) {
         City city = cityService.addCity(cityDTO);
-        return CityResponseDTO.builder().city(city).build();
+        CityResponseDTO cityResponseDTO = CityResponseDTO.builder().city(city).build();
+        return ResponseEntity.ok(cityResponseDTO);
+    }
+
+    @PatchMapping("/{cityId}")
+    public ResponseEntity<CityResponseDTO> cityModify(@PathVariable Long cityId, @RequestBody CityRequestDTO cityDTO) {
+        City city = cityService.findCity(cityId);
+        City cityPatched = cityService.modifyCity(city, cityDTO);
+        CityResponseDTO cityResponseDTO = CityResponseDTO.builder().city(cityPatched).build();
+        return ResponseEntity.ok(cityResponseDTO);
+    }
+
+    @DeleteMapping("/{cityId}")
+    public ResponseEntity<SuccessCode> cityDelete(@PathVariable Long cityId) {
+        if(!tripService.checkTripbyCity(cityId)){
+            cityService.deleteCity(cityId);
+        }
+        else {
+            throw new CustomException(ErrorCode.DELETE_CITY_FAILED);
+        }
+        return ResponseEntity.ok(SuccessCode.DELETE_CITY_SUCCESS);
     }
 }

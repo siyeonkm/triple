@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.Service;
+package com.interpark.triple.domain.service;
 
 import com.interpark.triple.domain.controller.DTO.TripRequestDTO;
 import com.interpark.triple.domain.entity.Trip;
@@ -44,5 +44,9 @@ public class TripService {
         Trip trip = findTrip(tripId);
         trip.updateTrip(tripDTO.getTitle(), tripDTO.getCity(), tripDTO.getStartDate(), tripDTO.getEndDate());
         return tripRepository.save(trip);
+    }
+
+    public Boolean checkTripbyCity(Long cityId) {
+        return tripRepository.existsByCity_CityId(cityId);
     }
 }

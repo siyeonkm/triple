@@ -18,13 +18,11 @@ public class CityApiTest extends BaseApiTest{
     void cityAddTest() throws Exception {
         //given
         CityRequestDTO cityRequestDTO = CityRequestDTO.builder().name("상하이").build();
-
         //when
         ResultActions resultActions = this.mockMvc.perform(MockMvcRequestBuilders.post("/cities/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(cityRequestDTO))
         );
-
         //then
         resultActions.andExpect(status().isCreated())
                 .andExpect(jsonPath("name").value("상하이")
