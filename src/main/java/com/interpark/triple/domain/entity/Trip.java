@@ -42,4 +42,11 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public void updateTrip(String title, City city, LocalDate startDate, LocalDate endDate) {
+        if(title != null) this.title = title;
+        if(city!=null) this.city =city;
+        if(startDate!=null) this.startDate =startDate;
+        if(endDate!=null) this.endDate = endDate;
+    }
 }
