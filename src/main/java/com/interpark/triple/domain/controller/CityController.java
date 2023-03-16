@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,12 +32,18 @@ public class CityController {
         return ResponseEntity.ok(cityResponseDTO);
     }
 
-    //TODO: 로직 완성하기
     @GetMapping()
     public ResponseEntity<List<CityResponseDTO>> cityList(HttpServletRequest request) {
         Long memberId = Long.valueOf(request.getHeader("memberId"));
-        List<CityResponseDTO> dtoList = new ArrayList<>();
-        return ResponseEntity.ok(dtoList);
+
+        List<CityResponseDTO> ongoingTrip = cityToDTO(tripService.findCitiesByTripsOngoing(memberId));
+        List<CityResponseDTO> cityDTOList = new ArrayList<>(ongoingTrip);
+
+        List<City> futureTrip = tripService.findCitiesByTripsBooked(memberId);
+        List<CityResponseDTO> cityRecommendList = cityToDTO(cityService.findCityList(memberId, futureTrip));
+        cityDTOList.addAll(cityRecommendList);
+
+        return ResponseEntity.ok(cityDTOList);
     }
 
     @PostMapping()
@@ -55,12 +63,20 @@ public class CityController {
 
     @DeleteMapping("/{cityId}")
     public ResponseEntity<SuccessCode> cityDelete(@PathVariable Long cityId) {
-        if(!tripService.checkTripbyCity(cityId)){
+        if(!tripService.CheckTripByCity(cityId)){
             cityService.deleteCity(cityId);
         }
         else {
             throw new CustomException(ErrorCode.DELETE_CITY_FAILED);
         }
         return ResponseEntity.ok(SuccessCode.DELETE_CITY_SUCCESS);
+    }
+
+    public List<CityResponseDTO> cityToDTO(List<City> cityList) {
+        List<CityResponseDTO> cityResponseDTOList = new ArrayList<>();
+        for(City city : cityList) {
+            cityResponseDTOList.add(CityResponseDTO.builder().city(city).build());
+        }
+        return cityResponseDTOList;
     }
 }
