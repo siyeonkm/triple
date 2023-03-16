@@ -1,9 +1,9 @@
-package com.interpark.triple.Controller;
+package com.interpark.triple.domain.controller;
 
-import com.interpark.triple.Controller.DTO.CityRequestDTO;
-import com.interpark.triple.Controller.DTO.CityResponseDTO;
-import com.interpark.triple.Service.CityService;
-import com.interpark.triple.domain.City;
+import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
+import com.interpark.triple.domain.controller.DTO.CityResponseDTO;
+import com.interpark.triple.domain.Service.CityService;
+import com.interpark.triple.domain.entity.City;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

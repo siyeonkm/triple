@@ -1,5 +1,5 @@
 
-package com.interpark.triple.domain;
+package com.interpark.triple.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;

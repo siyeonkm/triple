@@ -1,4 +1,4 @@
-package com.interpark.triple.domain;
+package com.interpark.triple.domain.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Builder;
@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity
@@ -43,5 +41,12 @@ public class Trip {
         this.city = city;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public void updateTrip(String title, City city, LocalDate startDate, LocalDate endDate) {
+        if(title != null) this.title = title;
+        if(city!=null) this.city =city;
+        if(startDate!=null) this.startDate =startDate;
+        if(endDate!=null) this.endDate = endDate;
     }
 }

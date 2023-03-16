@@ -1,8 +1,8 @@
-package com.interpark.triple.Service;
+package com.interpark.triple.domain.Service;
 
-import com.interpark.triple.Controller.DTO.CityRequestDTO;
-import com.interpark.triple.domain.City;
-import com.interpark.triple.repository.CityRepository;
+import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
+import com.interpark.triple.domain.entity.City;
+import com.interpark.triple.domain.repository.CityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
