@@ -4,6 +4,9 @@ import com.interpark.triple.domain.controller.DTO.CityResponseDTO;
 import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
 import com.interpark.triple.domain.service.CityService;
 import com.interpark.triple.domain.entity.City;
+import com.interpark.triple.domain.service.TripService;
+import com.interpark.triple.global.error.CustomException;
+import com.interpark.triple.global.error.ErrorCode;
 import com.interpark.triple.global.error.SuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequestMapping("/cities")
 public class CityController {
     private final CityService cityService;
+    private final TripService tripService;
 
     @GetMapping("/{cityId}")
     public ResponseEntity<CityResponseDTO> cityDetails(@PathVariable Long cityId) {
@@ -51,7 +55,12 @@ public class CityController {
 
     @DeleteMapping("/{cityId}")
     public ResponseEntity<SuccessCode> cityDelete(@PathVariable Long cityId) {
-        cityService.deleteCity(cityId);
+        if(!tripService.checkTripbyCity(cityId)){
+            cityService.deleteCity(cityId);
+        }
+        else {
+            throw new CustomException(ErrorCode.DELETE_CITY_FAILED);
+        }
         return ResponseEntity.ok(SuccessCode.DELETE_CITY_SUCCESS);
     }
 }

@@ -28,7 +28,6 @@ public class CityService {
         return cityRepository.save(city);
     }
 
-    //TODO: 도시에 지정된 여행이 없을 경우에만 삭제 가능
     public void deleteCity(Long cityId) {
         City city = findCity(cityId);
         try {
