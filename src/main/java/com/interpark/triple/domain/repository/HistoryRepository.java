@@ -13,5 +13,5 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
     @Query("select h from History h " +
             "where h.member.memberId = :memberId " +
             "and h.viewedDate < :weekBefore")
-    List<History> findHistoriesSearchedInWeek(Long memberId, LocalDateTime weekBefore);
+    List<History> findCitiesViewedByMemberId(Long memberId, LocalDateTime weekBefore);
 }

@@ -8,6 +8,7 @@ import com.interpark.triple.domain.repository.TripperRepository;
 import com.interpark.triple.global.error.CustomException;
 import com.interpark.triple.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,26 +66,41 @@ public class TripService {
     @Transactional(readOnly = true)
     public List<City> findCitiesByTripsOngoing(Long memberId) {
         List<Trip> trips = tripperRepository.findOngoingTripsByMemberId(memberId, LocalDate.now());
-        return sortCitiesByDate(trips);
+        return sortCitiesByDate(makeUniqueTripList(trips));
     }
 
     @Transactional(readOnly = true)
     public List<City> findCitiesByTripsBooked(Long memberId) {
         List<Trip> trips = tripperRepository.findOngoingTripsByMemberId(memberId, LocalDate.now());
-        return sortCitiesByDate(trips);
+        return sortCitiesByDate(makeUniqueTripList(trips));
     }
 
-    public List<City> sortCitiesByDate(List<Trip> trips) {
-        List<City> cityList = new ArrayList<>();
-        trips.sort(new AscendingComparator());
+    public List<Trip> makeUniqueTripList(List<Trip> trips) {
+        Map<City, Trip> tripMap = new HashMap<>();
         for(Trip trip : trips) {
-            cityList.add(trip.getCity());
+            tripMap.put(trip.getCity(), trip);
         }
-        return cityList;
+
+        List<Trip> uniqueTrips = new ArrayList<>();
+        tripMap.forEach((key, value) -> {
+            uniqueTrips.add(value);
+        });
+
+        return uniqueTrips;
+    }
+
+    public List<City> sortCitiesByDate(List<Trip> uniqueTrips) {
+        List<City> uniqueCities = new ArrayList<>();
+
+        uniqueTrips.sort(new AscendingComparator());
+        for(Trip trip : uniqueTrips) {
+            uniqueCities.add(trip.getCity());
+        }
+
+        return uniqueCities;
     }
 
     static class AscendingComparator implements Comparator<Trip> {
-
         @Override
         public int compare(Trip t1, Trip t2) {
             if(t1.getStartDate().isBefore(t2.getStartDate())) return -1;
