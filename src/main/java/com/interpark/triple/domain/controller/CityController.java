@@ -1,7 +1,7 @@
-package com.interpark.triple.domain.Controller;
+package com.interpark.triple.domain.controller;
 
-import com.interpark.triple.domain.Controller.DTO.CityRequestDTO;
-import com.interpark.triple.domain.Controller.DTO.CityResponseDTO;
+import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
+import com.interpark.triple.domain.controller.DTO.CityResponseDTO;
 import com.interpark.triple.domain.Service.CityService;
 import com.interpark.triple.domain.entity.City;
 import lombok.RequiredArgsConstructor;

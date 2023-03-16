@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.Controller.DTO;
+package com.interpark.triple.domain.controller.DTO;
 
 import lombok.Builder;
 import lombok.Getter;

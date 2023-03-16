@@ -1,6 +1,6 @@
 package com.interpark.triple.APITest;
 
-import com.interpark.triple.domain.Controller.DTO.CityRequestDTO;
+import com.interpark.triple.domain.controller.DTO.CityRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;

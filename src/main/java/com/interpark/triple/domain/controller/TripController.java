@@ -1,7 +1,7 @@
-package com.interpark.triple.domain.Controller;
+package com.interpark.triple.domain.controller;
 
-import com.interpark.triple.domain.Controller.DTO.TripRequestDTO;
-import com.interpark.triple.domain.Controller.DTO.TripResponseDTO;
+import com.interpark.triple.domain.controller.DTO.TripRequestDTO;
+import com.interpark.triple.domain.controller.DTO.TripResponseDTO;
 import com.interpark.triple.domain.Service.TripService;
 import com.interpark.triple.domain.entity.Trip;
 import com.interpark.triple.global.error.SuccessCode;

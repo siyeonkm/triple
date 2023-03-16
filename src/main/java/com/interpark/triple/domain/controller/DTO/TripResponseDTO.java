@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.Controller.DTO;
+package com.interpark.triple.domain.controller.DTO;
 
 import com.interpark.triple.domain.entity.City;
 import com.interpark.triple.domain.entity.Trip;
