@@ -13,10 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,14 +32,14 @@ public class CityController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<CityResponseDTO>> cityList(HttpServletRequest request) {
+    public ResponseEntity<List<CityResponseDTO>> cityListByMember(HttpServletRequest request) {
         Long memberId = Long.valueOf(request.getHeader("memberId"));
 
         List<CityResponseDTO> ongoingTrip = cityToDTO(tripService.findCitiesByTripsOngoing(memberId));
         List<CityResponseDTO> cityDTOList = new ArrayList<>(ongoingTrip);
 
         List<City> futureTrip = tripService.findCitiesByTripsBooked(memberId);
-        List<CityResponseDTO> cityRecommendList = cityToDTO(cityService.findCityList(memberId, futureTrip));
+        List<CityResponseDTO> cityRecommendList = cityToDTO(cityService.recommendCities(memberId, futureTrip));
         cityDTOList.addAll(cityRecommendList);
 
         return ResponseEntity.ok(cityDTOList);
@@ -50,7 +49,7 @@ public class CityController {
     public ResponseEntity<CityResponseDTO> cityAdd(@RequestBody CityRequestDTO cityDTO) {
         City city = cityService.addCity(cityDTO);
         CityResponseDTO cityResponseDTO = CityResponseDTO.builder().city(city).build();
-        return ResponseEntity.ok(cityResponseDTO);
+        return ResponseEntity.created(URI.create("/cities/" + cityResponseDTO.getId())).body(cityResponseDTO);
     }
 
     @PatchMapping("/{cityId}")
