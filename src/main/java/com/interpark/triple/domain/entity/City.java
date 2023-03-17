@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name= "city")
+@Table(name = "city")
 public class City extends BaseTimeEntity {
 
     @Id
@@ -29,9 +29,8 @@ public class City extends BaseTimeEntity {
     private List<String> places;
 
     @Builder
-    public City(String name, List<String> places){
+    public City(String name){
         this.name = name;
-        this.places = places;
     }
 
     public void updateNameandPlaces(String name,  List<String> places) {
