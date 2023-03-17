@@ -4,6 +4,8 @@ import com.interpark.triple.domain.controller.DTO.TripRequestDTO;
 import com.interpark.triple.domain.controller.DTO.TripResponseDTO;
 import com.interpark.triple.domain.service.TripService;
 import com.interpark.triple.domain.entity.Trip;
+import com.interpark.triple.global.error.CustomException;
+import com.interpark.triple.global.error.ErrorCode;
 import com.interpark.triple.global.error.SuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,14 @@ public class TripController {
 
     @PostMapping()
     public ResponseEntity<TripResponseDTO> tripAdd(@RequestBody TripRequestDTO tripDTO) {
-        Trip trip = tripService.addTrip(tripDTO);
-        TripResponseDTO tripResponseDTO = TripResponseDTO.builder().trip(trip).build();
-        return ResponseEntity.created(URI.create("/trips/" + trip.getTripId())).body(tripResponseDTO);
+        if(tripService.isEndDateFuture(tripDTO.getEndDate())){
+            Trip trip = tripService.addTrip(tripDTO);
+            TripResponseDTO tripResponseDTO = TripResponseDTO.builder().trip(trip).build();
+            return ResponseEntity.created(URI.create("/trips/" + trip.getTripId())).body(tripResponseDTO);
+        }
+        else {
+            throw new CustomException(ErrorCode.ADD_TRIP_FAILED);
+        }
     }
 
     @PatchMapping("/{tripId}")
