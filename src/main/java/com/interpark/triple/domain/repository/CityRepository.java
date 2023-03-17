@@ -2,15 +2,22 @@ package com.interpark.triple.domain.repository;
 
 import com.interpark.triple.domain.entity.City;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
-    Optional<City> findByCityId(Long id);
+    City findByCityId(Long id);
 
-    Optional<City> findByName(String name);
+    City findByName(String name);
+
+    List<City> findCitiesByCreatedDateAfter(LocalDateTime yesterday);
+
+    List<City> findCitiesByRandom(List<Long> cities, int num);
 
 
 }
