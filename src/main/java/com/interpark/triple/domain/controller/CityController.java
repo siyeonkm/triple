@@ -39,6 +39,7 @@ public class CityController {
         List<CityResponseDTO> cityDTOList = new ArrayList<>(ongoingTrip);
 
         List<City> futureTrip = tripService.findCitiesByTripsBooked(memberId);
+
         List<CityResponseDTO> cityRecommendList = cityToDTO(cityService.recommendCities(memberId, futureTrip));
         cityDTOList.addAll(cityRecommendList);
 

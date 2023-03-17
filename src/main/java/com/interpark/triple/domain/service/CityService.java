@@ -11,6 +11,7 @@ import com.interpark.triple.global.error.CustomException;
 import com.interpark.triple.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -49,16 +50,15 @@ public class CityService {
         }
     }
 
+    @Transactional
     public List<City> recommendCities(Long memberId, List<City> futureTrip) {
         List<City> cityList = new ArrayList<>();
         int count = 0;
 
         //1. 방문예정 여행
         for (City city : futureTrip) {
-            if(!cityList.contains(city)) {
-                cityList.add(city);
-                count++;
-            }
+            if(!cityList.contains(city)) cityList.add(city);
+            count++;
             if(count == 10) break;
         }
         //2. 하루 이내에 등록된 도시
@@ -83,18 +83,21 @@ public class CityService {
                 if(count == 10) break;
             }
         }
+        List<Long> cityIds = new ArrayList<>();
+        for(City city : cityList) {
+            cityIds.add(city.getCityId());
+        }
+
+        List<City> randomRecommend = cityRepository.findAll();
         //4. 랜덤으로 넣기
         if(count < 10) {
-            List<Long> cityIds = new ArrayList<>();
-            for(City city : cityList) {
-                cityIds.add(city.getCityId());
-            }
-
-            List<City> randomRecommend = cityRepository.findCitiesByRandom(cityIds, 10-count);
-            for(int i = count; i<10; i++) {
+            while(count < 10) {
                 Random rand = new Random();
                 City city = randomRecommend.get(rand.nextInt(randomRecommend.size()));
-                cityList.add(city);
+                if(!cityList.contains(city)) {
+                    cityList.add(city);
+                    count++;
+                }
             }
         }
         return cityList;

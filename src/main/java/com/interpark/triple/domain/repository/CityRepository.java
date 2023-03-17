@@ -17,7 +17,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     List<City> findCitiesByCreatedDateAfter(LocalDateTime yesterday);
 
-    List<City> findCitiesByRandom(List<Long> cities, int num);
+    List<City> findCitiesByRandom(List<Long> cities);
 
 
 }
