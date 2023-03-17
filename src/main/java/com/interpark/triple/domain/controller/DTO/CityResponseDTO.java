@@ -17,6 +17,7 @@ public class CityResponseDTO {
 
     @Builder
     public CityResponseDTO(City city) {
+        this.id = city.getCityId();
         this.name = city.getName();
         this.places = city.getPlaces();
     }

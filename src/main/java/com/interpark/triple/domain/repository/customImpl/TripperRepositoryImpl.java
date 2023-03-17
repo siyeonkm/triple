@@ -30,7 +30,8 @@ public class TripperRepositoryImpl implements TripperRepositoryCustom {
                         .and(tripper.trip.startDate.before(now)
                                 .and(tripper.trip.endDate.after(now))
                         )
-                ).orderBy(tripper.trip.startDate.asc())
+                )
+                .orderBy(tripper.trip.startDate.asc())
                 .fetch();
     }
 

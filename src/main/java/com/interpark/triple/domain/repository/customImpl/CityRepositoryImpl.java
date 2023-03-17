@@ -15,13 +15,13 @@ import static com.interpark.triple.domain.entity.QCity.city;
 public class CityRepositoryImpl implements CityRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public List<City> findCitiesByRandom(List<Long> cities, int num) {
+    public List<City> findCitiesByRandom(List<Long> cities) {
         return jpaQueryFactory
                 .select(city)
                 .from(city)
                 .where(city.cityId.notIn(cities))
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .limit(num)
+                .limit(10)
                 .fetch();
     }
 }

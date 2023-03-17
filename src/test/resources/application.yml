@@ -1,6 +1,5 @@
 spring:
   profiles:
-    default: test
     include: test
 
   jpa:

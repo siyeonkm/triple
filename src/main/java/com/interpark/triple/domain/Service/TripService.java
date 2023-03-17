@@ -1,5 +1,6 @@
 package com.interpark.triple.domain.service;
 
+import com.interpark.triple.domain.controller.DTO.CityDateDTO;
 import com.interpark.triple.domain.controller.DTO.TripRequestDTO;
 import com.interpark.triple.domain.entity.City;
 import com.interpark.triple.domain.entity.Trip;
@@ -24,8 +25,31 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public Trip findTrip(Long tripId) {
-        return tripRepository.findByTripId(tripId).orElseThrow(
-                () -> new CustomException(ErrorCode.TRIP_NOT_FOUND));
+        try {
+            return tripRepository.findByTripId(tripId);
+        }
+        catch(Exception e) {
+            throw new CustomException(ErrorCode.TRIP_NOT_FOUND);
+        }
+    }
+
+    @Transactional
+    public List<City> findCitiesByTripsOngoing(Long memberId) {
+        //중복허용, 정렬완료
+        List<CityDateDTO> trips = tripperRepository.findOngoingTripsByMemberId(memberId, LocalDate.now());
+
+        List<City> cities = new ArrayList<>();
+        for(CityDateDTO cityDateDTO : trips) {
+            cities.add(cityDateDTO.getCity());
+        }
+        return cities;
+    }
+
+    @Transactional
+    public List<City> findCitiesByTripsBooked(Long memberId) {
+        //중복제거, 정렬 미완료
+        List<CityDateDTO> trips = tripperRepository.findFutureTripsByMemberId(memberId, LocalDate.now());
+        return sortCitiesByDate(trips);
     }
 
     @Transactional
@@ -63,48 +87,25 @@ public class TripService {
         return tripRepository.existsByCity_CityId(cityId);
     }
 
-    @Transactional(readOnly = true)
-    public List<City> findCitiesByTripsOngoing(Long memberId) {
-        List<Trip> trips = tripperRepository.findOngoingTripsByMemberId(memberId, LocalDate.now());
-        return sortCitiesByDate(makeUniqueTripList(trips));
-    }
+    public List<City> sortCitiesByDate(List<CityDateDTO> trips) {
+        List<City> sortedCities = new ArrayList<>();
 
-    @Transactional(readOnly = true)
-    public List<City> findCitiesByTripsBooked(Long memberId) {
-        List<Trip> trips = tripperRepository.findOngoingTripsByMemberId(memberId, LocalDate.now());
-        return sortCitiesByDate(makeUniqueTripList(trips));
-    }
-
-    public List<Trip> makeUniqueTripList(List<Trip> trips) {
-        Map<City, Trip> tripMap = new HashMap<>();
-        for(Trip trip : trips) {
-            tripMap.put(trip.getCity(), trip);
+        trips.sort(new AscendingComparator());
+        for(CityDateDTO cityDateDTO : trips) {
+            sortedCities.add(cityDateDTO.getCity());
         }
-
-        List<Trip> uniqueTrips = new ArrayList<>();
-        tripMap.forEach((key, value) -> {
-            uniqueTrips.add(value);
-        });
-
-        return uniqueTrips;
+        return sortedCities;
     }
 
-    public List<City> sortCitiesByDate(List<Trip> uniqueTrips) {
-        List<City> uniqueCities = new ArrayList<>();
-
-        uniqueTrips.sort(new AscendingComparator());
-        for(Trip trip : uniqueTrips) {
-            uniqueCities.add(trip.getCity());
-        }
-
-        return uniqueCities;
+    public boolean isEndDateFuture(LocalDate endDate) {
+        return endDate.isAfter(LocalDate.now());
     }
 
-    static class AscendingComparator implements Comparator<Trip> {
+    static class AscendingComparator implements Comparator<CityDateDTO> {
         @Override
-        public int compare(Trip t1, Trip t2) {
-            if(t1.getStartDate().isBefore(t2.getStartDate())) return -1;
-            else if(t1.getStartDate().isEqual(t2.getStartDate())) return 0;
+        public int compare(CityDateDTO c1, CityDateDTO c2) {
+            if(c1.getDate().isBefore(c2.getDate())) return -1;
+            else if(c1.getDate().isEqual(c2.getDate())) return 0;
             else return 1;
         }
     }
