@@ -8,6 +8,8 @@ import com.interpark.triple.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor
 public class TripService {
@@ -44,6 +46,11 @@ public class TripService {
         Trip trip = findTrip(tripId);
         trip.updateTrip(tripDTO.getTitle(), tripDTO.getCity(), tripDTO.getStartDate(), tripDTO.getEndDate());
         return tripRepository.save(trip);
+    }
+
+    public Boolean isEndDateFuture(LocalDate endDate) {
+        LocalDate now = LocalDate.now();
+        return endDate.isAfter(now);
     }
 
     public Boolean checkTripbyCity(Long cityId) {

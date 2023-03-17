@@ -14,6 +14,8 @@ public enum ErrorCode {
 
     DELETE_CITY_FAILED(HttpStatus.CONFLICT, "진행중인 여행이 있어 도시를 삭제할 수 없습니다.");
 
+    ADD_TRIP_FAILED(HttpStatus.CONFLICT, "여행 종료일은 미래여야합니다.");
+
     private final HttpStatus httpStatus;
     private final String message;
 }
