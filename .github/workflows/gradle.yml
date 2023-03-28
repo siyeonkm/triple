@@ -26,6 +26,19 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    
+    - name: create develop yml file
+      run: |
+        touch src/main/resources/application-aws.properties
+        echo "${{ secrets.ENV_DEV }}" >> src/main/resources/application-dev.yml
+    - name: create production yml file
+      run: |
+        touch src/main/resources/application-oauth.properties
+        echo "${{ secrets.ENV_PROD }}" >> src/main/resources/application-prod.yml
+    - name: create test yml file
+      run: |
+        touch src/main/resources/application-oauth.properties
+        echo "${{ secrets.ENV_TEST }}" >> src/test/resources/application-test.yml
         
     # Gradle wrapper 파일 실행 권한주기
     - name: Grant execute permission for gradlew
