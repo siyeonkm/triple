@@ -1,7 +1,6 @@
 spring:
   profiles:
-    default: dev
-    include: dev
+    include: test
 
   jpa:
     properties:
@@ -11,4 +10,5 @@ spring:
           lob:
             non_contextual_creation: true
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
 
