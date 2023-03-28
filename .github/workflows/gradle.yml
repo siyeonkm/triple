@@ -38,7 +38,7 @@ jobs:
     - name: create test yml file
       run: |
         touch src/main/resources/application-oauth.properties
-        echo "${{ secrets.ENV_TEST }}" >> src/main/resources/application-test.yml
+        echo "${{ secrets.ENV_TEST }}" >> src/test/resources/application-test.yml
         
     # Gradle wrapper 파일 실행 권한주기
     - name: Grant execute permission for gradlew
