@@ -19,11 +19,12 @@ class CityRepositoryTest {
     @Test
     void findCitiesByRandom() {
         List<Long> cityIds = new ArrayList<>(List.of(1L, 3L, 5L));
-        List<City> cities = cityRepository.findCitiesByRandom(cityIds, 3);
+        List<City> cities = cityRepository.findCitiesByRandom(cityIds);
 
         for(City city : cities) {
             System.out.println("id = " + city.getCityId() + "   city = " + city.getName());
             Assertions.assertThat(city.getCityId()).isNotEqualTo(1L).isNotEqualTo(3L).isNotEqualTo(5L);
         }
+        
     }
 }
