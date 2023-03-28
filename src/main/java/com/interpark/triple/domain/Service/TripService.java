@@ -25,6 +25,7 @@ public class TripService {
 
     @Transactional(readOnly = true)
     public Trip findTrip(Long tripId) {
+<<<<<<< Updated upstream
         try {
             return tripRepository.findByTripId(tripId);
         }
